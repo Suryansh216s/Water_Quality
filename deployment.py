@@ -17,8 +17,8 @@ st.set_page_config(page_title="Water Quality Predictor", layout="centered")
 st.markdown("""
     <style>
     .block-container {
-        padding-top: 2rem;
-        margin-top: 2rem;
+        padding-top: 1rem;
+        margin-top: 1rem;
     }
     </style>
     """, unsafe_allow_html=True)
