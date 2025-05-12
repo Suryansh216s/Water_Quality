@@ -25,7 +25,7 @@ with st.form(key='water_quality_form'):
         type_water_body = st.selectbox("Type of Water Body", ["STP", "CANAL", "WTP", "DRAIN"])
     with row1[1]:
         state_name = st.selectbox("State Name", [
-            "ANDHRA PRADESH", "GOA", "GUJARAT", "KERALA", "edit: "TRIPURA", "WEST BENGAL", 
+            "ANDHRA PRADESH", "GOA", "GUJARAT", "KERALA", "TRIPURA", "WEST BENGAL", 
             "KARNATAKA", "MAHARASHTRA", "TAMIL NADU", "TELANGANA", "UTTAR PRADESH",
             "BIHAR", "JHARKHAND", "ODISHA", "PUNJAB", "RAJASTHAN", "HARYANA",
             "DELHI", "MADHYA PRADESH", "CHHATTISGARH", "ASSAM", "MEGHALAYA", "MANIPUR"
