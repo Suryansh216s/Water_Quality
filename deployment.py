@@ -12,6 +12,17 @@ with open('label_encoder.pkl', 'rb') as f:
 
 # Streamlit app
 st.set_page_config(page_title="Water Quality Predictor", layout="centered")
+
+# Custom CSS to remove blank space above title
+st.markdown("""
+    <style>
+    .block-container {
+        padding-top: 0rem;
+        margin-top: 0rem;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 st.title("💧 Water Quality Predictor")
 st.subheader("Enter water quality parameters to predict quality and detect fake reports")
 
@@ -19,8 +30,8 @@ st.subheader("Enter water quality parameters to predict quality and detect fake 
 with st.form(key='water_quality_form'):
     st.markdown("### Water Quality Parameters")
     
-    # Row 1: Type Water Body, State Name, Temp Min, Temp Max, DO Min, DO Max, pH Min, pH Max
-    row1 = st.columns(8)
+    # Row 1: Type Water Body, State Name, Temp Min, Temp Max, DO Min
+    row1 = st.columns(5)
     with row1[0]:
         type_water_body = st.selectbox("Water Body", ["STP", "CANAL", "WTP", "DRAIN"])
     with row1[1]:
@@ -36,50 +47,45 @@ with st.form(key='water_quality_form'):
         temp_max = st.number_input("Temp Max (°C)", min_value=0.0, max_value=50.0, value=30.0)
     with row1[4]:
         do_min = st.number_input("DO Min (mg/L)", min_value=0.0, max_value=20.0, value=5.0)
-    with row1[5]:
-        do_max = st.number_input("DO Max (mg/L)", min_value=0.0, max_value=20.0, value=7.0)
-    with row1[6]:
-        ph_min = st.number_input("pH Min", min_value=0.0, max_value=14.0, value=7.0)
-    with row1[7]:
-        ph_max = st.number_input("pH Max", min_value=0.0, max_value=14.0, value=7.5)
     
-    # Row 2: Cond Min, Cond Max, BOD Min, BOD Max, Nitrate Min, Nitrate Max, Fecal Coliform Min, Fecal Coliform Max
-    row2 = st.columns(8)
+    # Row 2: DO Max, pH Min, pH Max, Cond Min, Cond Max
+    row2 = st.columns(5)
     with row2[0]:
-        cond_min = st.number_input("Cond Min (µS/cm)", min_value=0.0, max_value=10000.0, value=200.0)
+        do_max = st.number_input("DO Max (mg/L)", min_value=0.0, max_value=20.0, value=7.0)
     with row2[1]:
-        cond_max = st.number_input("Cond Max (µS/cm)", min_value=0.0, max_value=10000.0, value=500.0)
+        ph_min = st.number_input("pH Min", min_value=0.0, max_value=14.0, value=7.0)
     with row2[2]:
-        bod_min = st.number_input("BOD Min (mg/L)", min_value=0.0, max_value=500.0, value=5.0)
+        ph_max = st.number_input("pH Max", min_value=0.0, max_value=14.0, value=7.5)
     with row2[3]:
-        bod_max = st.number_input("BOD Max (mg/L)", min_value=0.0, max_value=500.0, value=10.0)
+        cond_min = st.number_input("Cond Min (µS/cm)", min_value=0.0, max_value=10000.0, value=200.0)
     with row2[4]:
-        nitrate_min = st.number_input("Nitrate Min (mg/L)", min_value=0.0, max_value=200.0, value=0.5)
-    with row2[5]:
-        nitrate_max = st.number_input("Nitrate Max (mg/L)", min_value=0.0, max_value=200.0, value=1.0)
-    with row2[6]:
-        fecal_coliform_min = st.number_input("Fecal Col Min", min_value=0.0, max_value=1000000.0, value=50.0)
-    with row2[7]:
-        fecal_coliform_max = st.number_input("Fecal Col Max", min_value=0.0, max_value=1000000.0, value=100.0)
+        cond_max = st.number_input("Cond Max (µS/cm)", min_value=0.0, max_value=10000.0, value=500.0)
     
-    # Row 3: Total Coliform Min, Total Coliform Max, Fecal Strep Min, Fecal Strep Max
-    row3 = st.columns(8)
+    # Row 3: BOD Min, BOD Max, Nitrate Min, Nitrate Max, Fecal Coliform Min
+    row3 = st.columns(5)
     with row3[0]:
-        total_coliform_min = st.number_input("Total Col Min", min_value=0.0, max_value=1000000.0, value=100.0)
+        bod_min = st.number_input("BOD Min (mg/L)", min_value=0.0, max_value=500.0, value=5.0)
     with row3[1]:
-        total_coliform_max = st.number_input("Total Col Max", min_value=0.0, max_value=1000000.0, value=200.0)
+        bod_max = st.number_input("BOD Max (mg/L)", min_value=0.0, max_value=500.0, value=10.0)
     with row3[2]:
-        fecal_strep_min = st.number_input("Fecal Strep Min", min_value=0.0, max_value=100000.0, value=10.0)
+        nitrate_min = st.number_input("Nitrate Min (mg/L)", min_value=0.0, max_value=200.0, value=0.5)
     with row3[3]:
-        fecal_strep_max = st.number_input("Fecal Strep Max", min_value=0.0, max_value=100000.0, value=20.0)
+        nitrate_max = st.number_input("Nitrate Max (mg/L)", min_value=0.0, max_value=200.0, value=1.0)
     with row3[4]:
-        st.empty()  # Placeholder to align with 8 columns
-    with row3[5]:
-        st.empty()
-    with row3[6]:
-        st.empty()
-    with row3[7]:
-        st.empty()
+        fecal_coliform_min = st.number_input("Fecal Col Min", min_value=0.0, max_value=1000000.0, value=50.0)
+    
+    # Row 4: Fecal Coliform Max, Total Coliform Min, Total Coliform Max, Fecal Strep Min, Fecal Strep Max
+    row4 = st.columns(5)
+    with row4[0]:
+        fecal_coliform_max = st.number_input("Fecal Col Max", min_value=0.0, max_value=1000000.0, value=100.0)
+    with row4[1]:
+        total_coliform_min = st.number_input("Total Col Min", min_value=0.0, max_value=1000000.0, value=100.0)
+    with row4[2]:
+        total_coliform_max = st.number_input("Total Col Max", min_value=0.0, max_value=1000000.0, value=200.0)
+    with row4[3]:
+        fecal_strep_min = st.number_input("Fecal Strep Min", min_value=0.0, max_value=100000.0, value=10.0)
+    with row4[4]:
+        fecal_strep_max = st.number_input("Fecal Strep Max", min_value=0.0, max_value=100000.0, value=20.0)
 
     submit_button = st.form_submit_button(label="Predict Water Quality")
 
