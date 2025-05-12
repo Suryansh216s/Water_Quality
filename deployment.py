@@ -20,7 +20,7 @@ with st.form(key='water_quality_form'):
     st.markdown("### Water Quality Parameters")
     
     # Row 1: Type Water Body, State Name, Temperature Min, Temperature Max
-    row1 = st.columns(4)
+    row1 = st.columns(6)
     with row1[0]:
         type_water_body = st.selectbox("Type of Water Body", ["STP", "CANAL", "WTP", "DRAIN"])
     with row1[1]:
